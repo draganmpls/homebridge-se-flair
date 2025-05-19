@@ -1,0 +1,38 @@
+{
+  "name": "homebridge-se-flair",
+  "version": "1.0.0",
+  "description": "Homebridge plugin for Flair.co pucks, vents, and gateways (no HVAC control)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "auth-helper": "ts-node src/auth-helper.ts"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "flair",
+    "homebridge",
+    "iot"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "homebridge": ">=1.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/draganmpls/homebridge-se-flair"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "open": "^10.1.2"
+  },
+  "devDependencies": {
+    "homebridge": "^1.9.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  },
+  "homebridge": {
+    "platform": "FlairSE",
+    "name": "Homebridge Flair SE"
+  }
+}
