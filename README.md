@@ -36,3 +36,4 @@ You'll be prompted to enter your client ID and secret, and complete a browser-ba
 
 ## License
 MIT
+# homebridge-se-flair
