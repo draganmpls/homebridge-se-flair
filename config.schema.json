@@ -1,0 +1,44 @@
+{
+  "pluginAlias": "SEFlair",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "platform": {
+        "title": "Platform",
+        "type": "string",
+        "default": "SEFlair",
+        "readOnly": true
+      },
+      "clientId": {
+        "title": "Client ID",
+        "type": "string",
+        "description": "Flair API OAuth2 client ID."
+      },
+      "clientSecret": {
+        "title": "Client Secret",
+        "type": "string",
+        "description": "Flair API OAuth2 client secret."
+      },
+      "refreshToken": {
+        "title": "Refresh Token",
+        "type": "string",
+        "description": "Obtain with the included auth-helper tool. Paste it here."
+      }
+    },
+    "required": ["platform", "clientId", "clientSecret", "refreshToken"]
+  },
+  "layout": [
+    {
+      "type": "fieldset",
+      "title": "Flair API Authentication",
+      "expandable": false,
+      "items": [
+        "clientId",
+        "clientSecret",
+        "refreshToken"
+      ]
+    }
+  ]
+}
