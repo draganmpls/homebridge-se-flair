@@ -1,6 +1,7 @@
 {
   "name": "homebridge-se-flair",
-  "version": "1.0.0",
+  "displayName": "Homebridge SE Flair",
+  "version": "1.0.2",
   "description": "Homebridge plugin for Flair.co pucks, vents, and gateways (no HVAC control)",
   "main": "dist/index.js",
   "scripts": {
@@ -33,6 +34,6 @@
   },
   "homebridge": {
     "platform": "FlairSE",
-    "name": "Homebridge Flair SE"
+    "name": "Homebridge SE Flair"
   }
 }
