@@ -1,6 +1,9 @@
-from flair_api import make_client, Resource
+"""Fetch and display the current status of vents from the Flair API."""
+
 from datetime import datetime
 import os
+import sys
+from flair_api import make_client, Resource
 
 CLIENT_ID = os.getenv("FLAIR_CLIENT_ID")
 CLIENT_SECRET = os.getenv("FLAIR_CLIENT_SECRET")
@@ -43,7 +46,7 @@ client = make_client(
 structures = client.get("structures")
 if not structures:
     print("No structures found.")
-    exit()
+    sys.exit()
 
 structure = structures[0]
 print(f"\n✅ Structure: {structure.attributes['name']} (ID: {structure.id})")
@@ -52,7 +55,7 @@ print(f"\n✅ Structure: {structure.attributes['name']} (ID: {structure.id})")
 vents = structure.get_rel("vents")
 if not vents:
     print("No vents found.")
-    exit()
+    sys.exit()
 
 for vent in vents:
     name = vent.attributes.get("name")
