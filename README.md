@@ -2,6 +2,8 @@
 
 This plugin connects your Flair.co vents, pucks, and gateways to Apple HomeKit via Homebridge.
 
+See **docs/USER_GUIDE.md** for detailed setup instructions.
+
 ## Installation
 ```bash
 sudo npm install -g homebridge-se-flair
