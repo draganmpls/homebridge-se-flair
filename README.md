@@ -29,6 +29,7 @@ Run the helper script to perform the login flow. It will open a browser and auto
 npm run auth-helper
 ```
 If `refreshToken` is omitted from your config, the plugin will also trigger this browser flow on the first launch and store the token automatically.
+If no browser window appears, copy the authorization link from the logs and open it manually.
 
 ### Python helper scripts
 The optional `vent_status.py` script reads credentials from the environment variables `FLAIR_CLIENT_ID` and `FLAIR_CLIENT_SECRET` before accessing the API.
