@@ -41,6 +41,7 @@ const http_1 = __importDefault(require("http"));
 const open_1 = __importDefault(require("open"));
 const FlairVentAccessory_1 = require("./accessories/FlairVentAccessory");
 const FlairPuckAccessory_1 = require("./accessories/FlairPuckAccessory");
+const FlairGatewayAccessory_1 = require("./accessories/FlairGatewayAccessory");
 const flairApiClient_1 = require("./flairApiClient");
 const credentialStore_1 = require("./credentialStore");
 class FlairPlatform {
@@ -67,15 +68,7 @@ class FlairPlatform {
             try {
                 const devices = await this.client.getDevices();
                 for (const device of devices) {
-                    const uuid = this.api.hap.uuid.generate(device.id);
-                    const accessory = new this.api.platformAccessory(device.name, uuid);
-                    if (device.type === 'vent') {
-                        this.deviceMap[device.id] = new FlairVentAccessory_1.FlairVentAccessory(this, accessory, device);
-                    }
-                    else if (device.type === 'puck') {
-                        this.deviceMap[device.id] = new FlairPuckAccessory_1.FlairPuckAccessory(this, accessory, device);
-                    }
-                    this.api.registerPlatformAccessories('homebridge-se-flair', 'FlairSE', [accessory]);
+                    this.addDevice(device);
                 }
                 setInterval(() => this.refreshDevices(), pollSeconds * 1000).unref();
             }
@@ -132,12 +125,43 @@ class FlairPlatform {
             const devices = await this.client.getDevices();
             for (const device of devices) {
                 const acc = this.deviceMap[device.id];
-                acc?.updateFromDevice(device);
+                if (acc) {
+                    acc.updateFromDevice(device);
+                }
+                else {
+                    this.addDevice(device);
+                }
             }
         }
         catch (error) {
             this.log.error('Error refreshing Flair devices:', error);
         }
+    }
+    addDevice(device) {
+        const uuid = this.api.hap.uuid.generate(device.id);
+        const accessory = new this.api.platformAccessory(device.name, uuid);
+        if (device.type === 'vent') {
+            if (this.config.includeVents === false) {
+                return;
+            }
+            this.deviceMap[device.id] = new FlairVentAccessory_1.FlairVentAccessory(this, accessory, device);
+        }
+        else if (device.type === 'puck') {
+            if (this.config.includePucks === false) {
+                return;
+            }
+            this.deviceMap[device.id] = new FlairPuckAccessory_1.FlairPuckAccessory(this, accessory, device);
+        }
+        else if (device.type === 'gateway') {
+            if (this.config.includeGateways === false) {
+                return;
+            }
+            this.deviceMap[device.id] = new FlairGatewayAccessory_1.FlairGatewayAccessory(this, accessory);
+        }
+        else {
+            return;
+        }
+        this.api.registerPlatformAccessories('homebridge-se-flair', 'FlairSE', [accessory]);
     }
     configureAccessory(accessory) {
         this.accessories.push(accessory);

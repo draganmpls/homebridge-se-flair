@@ -8,4 +8,8 @@ export class FlairGatewayAccessory {
   ) {
     platform.log.info(`Initialized Flair Gateway: ${accessory.displayName}`);
   }
+
+  updateFromDevice(): void {
+    // Gateways currently expose no dynamic state
+  }
 }

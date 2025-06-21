@@ -31,6 +31,24 @@
         "type": "number",
         "default": 300,
         "description": "How often to refresh device state (seconds)"
+      },
+      "includePucks": {
+        "title": "Add Pucks",
+        "type": "boolean",
+        "default": true,
+        "description": "Add puck accessories"
+      },
+      "includeVents": {
+        "title": "Add Vents",
+        "type": "boolean",
+        "default": true,
+        "description": "Add vent accessories"
+      },
+      "includeGateways": {
+        "title": "Add Gateways",
+        "type": "boolean",
+        "default": true,
+        "description": "Add gateway accessories"
       }
     },
     "required": ["platform", "clientId", "clientSecret"]
@@ -44,7 +62,10 @@
         "clientId",
         "clientSecret",
         "refreshToken",
-        "pollInterval"
+        "pollInterval",
+        "includePucks",
+        "includeVents",
+        "includeGateways"
       ]
     }
   ]

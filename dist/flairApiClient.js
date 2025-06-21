@@ -34,6 +34,7 @@ class FlairApiClient {
         return [
             { id: 'vent1', type: 'vent', name: 'Living Room Vent', roomName: 'Living Room', state: { open: true } },
             { id: 'puck1', type: 'puck', name: 'Living Room Puck', roomName: 'Living Room', state: { temperature: 22.5, battery: 95 } },
+            { id: 'gateway1', type: 'gateway', name: 'Home Gateway', roomName: 'Living Room', state: {} },
         ];
     }
 }

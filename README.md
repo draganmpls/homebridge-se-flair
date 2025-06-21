@@ -14,10 +14,14 @@ Add the following to your Homebridge `config.json` (or use Homebridge UI):
   "platform": "FlairSE",
   "clientId": "your-client-id",
   "clientSecret": "your-client-secret",
-  "pollInterval": 300
+  "pollInterval": 300,
+  "includePucks": true,
+  "includeVents": true,
+  "includeGateways": true
 }
 ```
-`pollInterval` controls how often the plugin refreshes device state from Flair. If omitted, it defaults to `300` seconds.
+`pollInterval` controls how often the plugin refreshes device state from Flair.
+If omitted, it defaults to `300` seconds. The `include*` options let you disable adding pucks, vents, or gateways; all default to `true` following the Flair API defaults.
 
 ### OAuth2 Setup
 Run the helper script to perform the login flow. It will open a browser and automatically capture the authorization code, saving the refresh token to `~/.flair-refresh-token`.
