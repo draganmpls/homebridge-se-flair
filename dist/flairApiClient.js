@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FlairApiClient = void 0;
 const axios_1 = __importDefault(require("axios"));
 class FlairApiClient {
-    constructor(refreshToken) {
+    constructor(clientId, clientSecret, refreshToken) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
         this.refreshToken = refreshToken;
         this.token = '';
         this.http = axios_1.default.create({ baseURL: 'https://api.flair.co' });
@@ -15,8 +17,8 @@ class FlairApiClient {
         const res = await axios_1.default.post('https://api.flair.co/oauth/token', {
             grant_type: 'refresh_token',
             refresh_token: this.refreshToken,
-            client_id: '', // User-provided at runtime
-            client_secret: '',
+            client_id: this.clientId,
+            client_secret: this.clientSecret,
         });
         this.token = res.data.access_token;
         this.http.defaults.headers.common.Authorization = `Bearer ${this.token}`;

@@ -1,10 +1,13 @@
 from flair_api import make_client, Resource
 from datetime import datetime
+import os
 
-# 🧾 Replace with your actual credentials
-CLIENT_ID = "bBal2B4NsVheVoRC9xAWrglAoBYlID5CkrFgisTm"
-CLIENT_SECRET = "oNPQT4iz5jurWsb4nVdTYz04zoBvIyetMbhawsWIUaaiR3KeKaKWdcS4ryZO"
+CLIENT_ID = os.getenv("FLAIR_CLIENT_ID")
+CLIENT_SECRET = os.getenv("FLAIR_CLIENT_SECRET")
 API_ROOT = "https://api.flair.co"
+
+if not CLIENT_ID or not CLIENT_SECRET:
+    raise RuntimeError("FLAIR_CLIENT_ID and FLAIR_CLIENT_SECRET must be set")
 
 # Custom resource wrappers
 class VentState(Resource):

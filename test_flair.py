@@ -1,26 +1,41 @@
 import requests
+from unittest.mock import patch, MagicMock
 
-client_id = "bBal2B4NsVheVoRC9xAWrglAoBYlID5CkrFgisTm"
-client_secret = "oNPQT4iz5jurWsb4nVdTYz04zoBvIyetMbhawsWIUaaiR3KeKaKWdcS4ryZO"
 
-# Step 1: Get access token using OAuth2 Client Credentials
-auth_response = requests.post("https://api.flair.co/oauth/token", data={
-    "grant_type": "client_credentials",
-    "client_id": client_id,
-    "client_secret": client_secret,
-})
+def get_access_token(client_id: str, client_secret: str) -> str:
+    res = requests.post(
+        "https://api.flair.co/oauth/token",
+        data={
+            "grant_type": "client_credentials",
+            "client_id": client_id,
+            "client_secret": client_secret,
+        },
+    )
+    res.raise_for_status()
+    return res.json()["access_token"]
 
-if auth_response.status_code != 200:
-    print("❌ Auth failed:", auth_response.status_code, auth_response.text)
-    exit(1)
 
-access_token = auth_response.json().get("access_token")
-print("✅ Access token received.")
+def fetch_structures(token: str):
+    res = requests.get(
+        "https://api.flair.co/structures",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    res.raise_for_status()
+    return res.json()
 
-# Step 2: Use access token to fetch structures
-headers = {"Authorization": f"Bearer {access_token}"}
-response = requests.get("https://api.flair.co/structures", headers=headers)
 
-print("📦 Flair API response:")
-print(response.status_code)
-print(response.json())
+def test_api_flow():
+    token_resp = MagicMock(status_code=200, json=lambda: {"access_token": "T"})
+    structures_resp = MagicMock(status_code=200, json=lambda: {"data": []})
+    with patch("requests.post", return_value=token_resp) as mock_post, patch(
+        "requests.get", return_value=structures_resp
+    ) as mock_get:
+        token = get_access_token("id", "secret")
+        assert token == "T"
+        data = fetch_structures(token)
+        assert data == {"data": []}
+        mock_post.assert_called_once()
+        mock_get.assert_called_once_with(
+            "https://api.flair.co/structures",
+            headers={"Authorization": "Bearer T"},
+        )

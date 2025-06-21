@@ -27,7 +27,7 @@ export class FlairPlatform implements DynamicPlatformPlugin {
 
     this.api.on('didFinishLaunching', async () => {
       this.log.info('FlairSE platform starting device discovery...');
-      const client = new FlairApiClient(config.refreshToken);
+      const client = new FlairApiClient(config.clientId, config.clientSecret, config.refreshToken);
 
       try {
         const devices = await client.getDevices();
