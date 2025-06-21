@@ -28,6 +28,11 @@ export class FlairVentAccessory {
       .onSet(this.handleSet.bind(this));
   }
 
+  updateFromDevice(device: FlairDevice): void {
+    this.isOpen = device.state.open;
+    this.service.updateCharacteristic(this.platform.Characteristic.On, this.isOpen);
+  }
+
   async handleGet(): Promise<CharacteristicValue> {
     return this.isOpen;
   }

@@ -19,6 +19,10 @@ class FlairVentAccessory {
             .onGet(this.handleGet.bind(this))
             .onSet(this.handleSet.bind(this));
     }
+    updateFromDevice(device) {
+        this.isOpen = device.state.open;
+        this.service.updateCharacteristic(this.platform.Characteristic.On, this.isOpen);
+    }
     async handleGet() {
         return this.isOpen;
     }

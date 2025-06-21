@@ -16,9 +16,12 @@ Add the following to your Homebridge `config.json` (or use Homebridge UI):
   "clientId": "your-client-id",
   "clientSecret": "your-client-secret",
   "refreshToken": "your-refresh-token",
-  "pollInterval": 30
+  "pollInterval": 300
 }
 ```
+
+`pollInterval` controls how often the plugin refreshes device state from Flair.
+If omitted, it defaults to `300` seconds.
 
 ## OAuth2 Setup
 Use the included helper script to generate a refresh token:
