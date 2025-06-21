@@ -1,0 +1,10 @@
+src/
+node_modules/
+__pycache__/
+.venv/
+pytest_cache/
+test_flair.py
+vent_status.py
+requirements.txt
+*.tgz
+
