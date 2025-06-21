@@ -25,6 +25,13 @@ class FlairPuckAccessory {
         this.batteryService.getCharacteristic(this.platform.Characteristic.StatusLowBattery)
             .onGet(() => this.battery < 20 ? 1 : 0);
     }
+    updateFromDevice(device) {
+        this.temperature = device.state.temperature;
+        this.battery = device.state.battery;
+        this.temperatureService.updateCharacteristic(this.platform.Characteristic.CurrentTemperature, this.temperature);
+        this.batteryService.updateCharacteristic(this.platform.Characteristic.BatteryLevel, this.battery);
+        this.batteryService.updateCharacteristic(this.platform.Characteristic.StatusLowBattery, this.battery < 20 ? 1 : 0);
+    }
     async getTemperature() {
         return this.temperature;
     }
