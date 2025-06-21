@@ -28,6 +28,10 @@ npm run auth-helper
 
 You'll be prompted to enter your client ID and secret, and complete a browser-based login. A refresh token will be printed to the console.
 
+### Python helper scripts
+The optional `vent_status.py` script now reads credentials from the environment variables
+`FLAIR_CLIENT_ID` and `FLAIR_CLIENT_SECRET` before accessing the API.
+
 ## Status
 - ✅ OAuth2 refresh token flow
 - ✅ Compatible with Homebridge UI

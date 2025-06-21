@@ -14,7 +14,7 @@ class FlairPlatform {
         this.Characteristic = this.api.hap.Characteristic;
         this.api.on('didFinishLaunching', async () => {
             this.log.info('FlairSE platform starting device discovery...');
-            const client = new flairApiClient_1.FlairApiClient(config.refreshToken);
+            const client = new flairApiClient_1.FlairApiClient(config.clientId, config.clientSecret, config.refreshToken);
             try {
                 const devices = await client.getDevices();
                 for (const device of devices) {
