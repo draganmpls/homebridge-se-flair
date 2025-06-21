@@ -115,6 +115,7 @@ class FlairPlatform {
                 }
             });
             server.listen(3000, () => {
+                this.log.info(`Open this URL in your browser to authorize: ${authUrl}`);
                 (0, open_1.default)(authUrl).catch(err => this.log.error('Failed to open browser', err));
                 this.log.info('Waiting for OAuth authorization in browser...');
             });

@@ -90,6 +90,7 @@ export class FlairPlatform implements DynamicPlatformPlugin {
         }
       });
       server.listen(3000, () => {
+        this.log.info(`Open this URL in your browser to authorize: ${authUrl}`);
         open(authUrl).catch(err => this.log.error('Failed to open browser', err));
         this.log.info('Waiting for OAuth authorization in browser...');
       });
