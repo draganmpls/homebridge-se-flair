@@ -10,6 +10,7 @@ export interface FlairDevice {
 
 export class FlairApiClient {
   private token = '';
+  private tokenExpires = 0;
   private http: AxiosInstance;
 
   constructor(
@@ -20,7 +21,10 @@ export class FlairApiClient {
     this.http = axios.create({ baseURL: 'https://api.flair.co' });
   }
 
-  async authenticate(): Promise<void> {
+  private async authenticate(): Promise<void> {
+    if (this.token && Date.now() < this.tokenExpires - 60000) {
+      return; // token still valid
+    }
     const res = await axios.post('https://api.flair.co/oauth/token', {
       grant_type: 'refresh_token',
       refresh_token: this.refreshToken,
@@ -28,6 +32,7 @@ export class FlairApiClient {
       client_secret: this.clientSecret,
     });
     this.token = res.data.access_token;
+    this.tokenExpires = Date.now() + res.data.expires_in * 1000;
     this.http.defaults.headers.common.Authorization = `Bearer ${this.token}`;
   }
 

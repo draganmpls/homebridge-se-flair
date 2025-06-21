@@ -7,10 +7,13 @@ import {
   Service,
   Characteristic,
 } from 'homebridge';
+import http from 'http';
+import open from 'open';
 
 import { FlairVentAccessory } from './accessories/FlairVentAccessory';
 import { FlairPuckAccessory } from './accessories/FlairPuckAccessory';
 import { FlairApiClient } from './flairApiClient';
+import { loadRefreshToken, saveRefreshToken } from './credentialStore';
 
 export class FlairPlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service;
@@ -29,7 +32,17 @@ export class FlairPlatform implements DynamicPlatformPlugin {
 
     this.api.on('didFinishLaunching', async () => {
       this.log.info('FlairSE platform starting device discovery...');
-      this.client = new FlairApiClient(config.clientId, config.clientSecret, config.refreshToken);
+      let refreshToken = config.refreshToken || await loadRefreshToken();
+
+      if (!refreshToken && config.clientId && config.clientSecret) {
+        refreshToken = await this.runAuthFlow(config.clientId, config.clientSecret);
+      }
+      if (!refreshToken) {
+        this.log.error('No refresh token available; cannot communicate with Flair API.');
+        return;
+      }
+
+      this.client = new FlairApiClient(config.clientId, config.clientSecret, refreshToken);
       const pollSeconds = config.pollInterval ?? 300;
 
       try {
@@ -52,6 +65,42 @@ export class FlairPlatform implements DynamicPlatformPlugin {
       } catch (error) {
         this.log.error('Error fetching Flair devices:', error);
       }
+    });
+  }
+
+  private async runAuthFlow(clientId: string, clientSecret: string): Promise<string | null> {
+    const redirectUri = 'http://localhost:3000/callback';
+    const authUrl = `https://api.flair.co/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+
+    return await new Promise(resolve => {
+      const server = http.createServer(async (req, res) => {
+        if (!req.url) return;
+        const urlObj = new URL(req.url, redirectUri);
+        if (urlObj.pathname !== '/callback') { res.statusCode = 404; res.end(); return; }
+        const code = urlObj.searchParams.get('code');
+        res.end('Authorization complete. You may close this window.');
+        server.close();
+        if (!code) { resolve(null); return; }
+        try {
+          const tokenRes = await import('axios').then(m => m.default.post('https://api.flair.co/oauth/token', {
+            grant_type: 'authorization_code',
+            code,
+            redirect_uri: redirectUri,
+            client_id: clientId,
+            client_secret: clientSecret,
+          }));
+          await saveRefreshToken(tokenRes.data.refresh_token);
+          this.log.info('Stored refresh token at ~/.flair-refresh-token');
+          resolve(tokenRes.data.refresh_token);
+        } catch (err) {
+          this.log.error('Failed to exchange auth code:', err);
+          resolve(null);
+        }
+      });
+      server.listen(3000, () => {
+        open(authUrl).catch(err => this.log.error('Failed to open browser', err));
+        this.log.info('Waiting for OAuth authorization in browser...');
+      });
     });
   }
 
