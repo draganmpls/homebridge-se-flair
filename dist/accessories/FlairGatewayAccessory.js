@@ -7,5 +7,8 @@ class FlairGatewayAccessory {
         this.accessory = accessory;
         platform.log.info(`Initialized Flair Gateway: ${accessory.displayName}`);
     }
+    updateFromDevice() {
+        // Gateways currently expose no dynamic state
+    }
 }
 exports.FlairGatewayAccessory = FlairGatewayAccessory;
