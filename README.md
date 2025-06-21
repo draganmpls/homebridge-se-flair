@@ -32,7 +32,13 @@ If `refreshToken` is omitted from your config, the plugin will also trigger this
 If no browser window appears, copy the authorization link from the logs and open it manually.
 
 ### Python helper scripts
-The optional `vent_status.py` script reads credentials from the environment variables `FLAIR_CLIENT_ID` and `FLAIR_CLIENT_SECRET` before accessing the API.
+The optional `vent_status.py` script reads credentials from the environment variables `FLAIR_CLIENT_ID` and `FLAIR_CLIENT_SECRET` before accessing the API. Install dependencies with `pip install -r requirements.txt`.
+
+### npm proxy warning
+If you see `npm warn Unknown env config "http-proxy"` during `npm` commands,
+rename your proxy environment variables to `npm_config_proxy` and
+`npm_config_https_proxy`. The deprecated `http_proxy` and
+`https_proxy` variables trigger this warning in newer npm versions.
 
 ## Status
 - ✅ OAuth2 refresh token flow with automatic browser capture
