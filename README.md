@@ -29,6 +29,8 @@ Run the helper script to perform the login flow. It will open a browser and auto
 ```bash
 npm run auth-helper
 ```
+You can also click **Run OAuth Helper** in the Homebridge UI which executes the same command.
+
 If `refreshToken` is omitted from your config, the plugin will also trigger this browser flow on the first launch and store the token automatically.
 If no browser window appears, copy the authorization link from the logs and open it manually.
 
