@@ -8,3 +8,5 @@ dependencies:
   - pip:
       - requests>=2.32.0
       - flair_client>=1.0.0
+      - flake8
+      - pytest
