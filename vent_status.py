@@ -14,22 +14,34 @@ if not CLIENT_ID or not CLIENT_SECRET:
 
 # Custom resource wrappers
 class VentState(Resource):
+    """Wrapper for vent state readings."""
+
     @property
     def x(self):
-        return datetime.strptime(self.attributes['created-at'], "%Y-%m-%dT%H:%M:%S.%f+00:00")
+        """Timestamp of the state sample as a ``datetime``."""
+        return datetime.strptime(
+            self.attributes["created-at"], "%Y-%m-%dT%H:%M:%S.%f+00:00"
+        )
 
     @property
     def y(self):
-        return self.attributes['percent-open']
+        """Open percentage for the vent state."""
+        return self.attributes["percent-open"]
 
 class VentSensorReading(Resource):
+    """Wrapper for vent sensor readings."""
+
     @property
     def x(self):
-        return datetime.strptime(self.attributes['created-at'], "%Y-%m-%dT%H:%M:%S.%f+00:00")
+        """Timestamp of the sensor reading as a ``datetime``."""
+        return datetime.strptime(
+            self.attributes["created-at"], "%Y-%m-%dT%H:%M:%S.%f+00:00"
+        )
 
     @property
     def y(self):
-        return self.attributes['percent-open']
+        """Open percentage value from the sensor reading."""
+        return self.attributes["percent-open"]
 
 # Initialize Flair client with resource mappers
 client = make_client(
