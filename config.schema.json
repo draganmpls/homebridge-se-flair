@@ -24,13 +24,15 @@
       "refreshToken": {
         "title": "Refresh Token",
         "type": "string",
-        "description": "Optional. If omitted, a browser flow will run on startup and token will be stored securely"
+        "description": "Optional. If omitted, a browser flow will run on startup and token will be stored securely",
+        "markdownDescription": "Leave blank to automatically open a browser for authorization on first launch."
       },
       "pollInterval": {
         "title": "Poll Interval",
         "type": "number",
         "default": 300,
-        "description": "How often to refresh device state (seconds)"
+        "description": "How often to refresh device state (seconds)",
+        "minimum": 60
       },
       "includePucks": {
         "title": "Add Pucks",
@@ -56,12 +58,19 @@
   "layout": [
     {
       "type": "fieldset",
-      "title": "Flair API OAuth2 Authentication",
+      "title": "Flair API Credentials",
       "expandable": false,
       "items": [
         "clientId",
         "clientSecret",
-        "refreshToken",
+        "refreshToken"
+      ]
+    },
+    {
+      "type": "fieldset",
+      "title": "Device Options",
+      "expandable": false,
+      "items": [
         "pollInterval",
         "includePucks",
         "includeVents",
