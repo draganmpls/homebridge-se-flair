@@ -20,6 +20,7 @@ Add the following to your Homebridge `config.json` (or use Homebridge UI):
   "includeGateways": true
 }
 ```
+When using the Homebridge UI, your OAuth credentials now appear in a **Flair API Credentials** section, with polling and accessory options grouped under **Device Options**.
 `pollInterval` controls how often the plugin refreshes device state from Flair.
 If omitted, it defaults to `300` seconds. The `include*` options let you disable adding pucks, vents, or gateways; all default to `true` following the Flair API defaults.
 
